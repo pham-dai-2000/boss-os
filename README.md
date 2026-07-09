@@ -258,6 +258,6 @@ boss-os/
 
 <div align="center">
 
-Made with ☕ by **[Minh Quý](https://phamquangdai.com)** · Repo: `github.com/pham-dai-2000/boss-os`
+Made with ☕ by **[Phạm Quảng Đại](https://phamquangdai.com)** · Repo: `github.com/pham-dai-2000/boss-os`
 
 </div>
