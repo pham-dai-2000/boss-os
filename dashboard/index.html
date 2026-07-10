@@ -488,8 +488,13 @@
         <div class="auth-err" id="authErr"></div>
         <div class="auth-help"><span id="authForgot">Quên mật khẩu?</span></div>
         <div class="auth-reset" id="authResetInfo" style="display:none">
-          Mở file <code>server/settings.json</code>, xóa khối <code>"auth"</code> (hoặc đặt rỗng), rồi
-          chạy <code>stop-boss.bat</code> → <code>start-boss.vbs</code>. Mở lại sẽ về bộ cài đặt để tạo tài khoản mới.
+          <b>Đặt lại mật khẩu (không cần terminal):</b>
+          <ol style="margin:6px 0 4px 18px;padding:0">
+            <li>Vào <b>Hostinger → Docker Manager</b> → dự án <code>boss-os</code> → <b>Manage / Environment</b>.</li>
+            <li>Đổi giá trị biến <code>BOSS_ADMIN_PASSWORD</code> thành mật khẩu mới (đặt cả <code>BOSS_ADMIN_USER</code> nếu muốn đổi tên).</li>
+            <li>Bấm <b>Redeploy</b>, đợi 1-2 phút. Xong đăng nhập bằng mật khẩu mới.</li>
+          </ol>
+          <span class="dim">Chạy local (không Docker): mở <code>server/settings.json</code>, xoá khối <code>"auth"</code> rồi khởi động lại server → về bộ cài đặt tạo tài khoản mới.</span>
         </div>
       </div>
     </div>

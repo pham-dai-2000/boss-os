@@ -250,17 +250,45 @@ def clear_setup_token():
         pass
 
 
+_ADMIN_ENV_SIG_PATH = STATE_DIR / ".admin_env_sig"
+
+
 def provision_admin_from_env():
-    """Có BOSS_ADMIN_PASSWORD (+ tùy chọn BOSS_ADMIN_USER) và CHƯA có admin → tạo admin lúc boot
-    → đóng /auth/setup cho mọi người (cách an toàn nhất cho deploy public). Trả True nếu vừa tạo."""
-    if auth_enabled():
-        return False
+    """Áp dụng tài khoản admin từ biến môi trường BOSS_ADMIN_PASSWORD (+ tùy chọn BOSS_ADMIN_USER).
+    Dùng cho cả TẠO admin lần đầu lẫn ĐẶT LẠI mật khẩu (quên): chỉ cần đổi BOSS_ADMIN_PASSWORD trong
+    Docker Manager rồi Redeploy → app tự đặt lại, KHÔNG cần terminal.
+      - Chưa có admin → tạo.
+      - Giá trị env ĐỔI so với lần áp dụng trước → áp dụng lại (reset mật khẩu về giá trị env mới).
+      - Env KHÔNG đổi → không đụng gì (giữ nguyên mật khẩu bạn đã tự đổi trong app).
+    Trả True nếu vừa áp dụng."""
     pw = os.getenv("BOSS_ADMIN_PASSWORD", "")
     if not pw:
         return False
     user = (os.getenv("BOSS_ADMIN_USER", "admin").strip() or "admin")
+    sig = hashlib.sha256((user + "\x00" + pw).encode("utf-8")).hexdigest()
+    try:
+        last = _ADMIN_ENV_SIG_PATH.read_text(encoding="utf-8").strip()
+    except Exception:
+        last = ""
+
+    if auth_enabled():
+        # Đã có admin. Lần đầu chạy bản này (chưa có marker) → chỉ GHI NHẬN sig hiện tại,
+        # KHÔNG reset (tránh nâng cấp bản mới mà vô tình đè mật khẩu đang dùng).
+        if last == "":
+            try: _ADMIN_ENV_SIG_PATH.write_text(sig, encoding="utf-8")
+            except Exception: pass
+            return False
+        # Env không đổi → giữ nguyên (không đè mật khẩu đổi trong app).
+        if sig == last:
+            return False
+        # Env ĐỔI → đây là hành động đặt lại có chủ đích.
+
     h, salt = hash_password(pw)
     cfg = read_settings()
     cfg["auth"] = {"username": user, "password_hash": h, "salt": salt}
     write_settings(cfg)
+    try:
+        _ADMIN_ENV_SIG_PATH.write_text(sig, encoding="utf-8")
+    except Exception:
+        pass
     return True

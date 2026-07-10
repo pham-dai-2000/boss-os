@@ -4,6 +4,10 @@ Lịch sử phiên bản Boss OS. Bản mới nhất ở trên cùng. Xem ngay t
 
 Định dạng: mỗi phiên bản là một khối `## [x.y.z] - ngày`, bên dưới nhóm thay đổi theo `### Thêm mới / Sửa lỗi / Cải thiện / Bảo mật`.
 
+## [1.0.11] - 2026-07-09
+### Cải thiện
+- **Đặt lại mật khẩu khi quên KHÔNG cần terminal**: chỉ cần đổi biến `BOSS_ADMIN_PASSWORD` trong Hostinger Docker Manager rồi Redeploy → app tự đặt lại mật khẩu về giá trị mới. App ghi nhớ giá trị env đã áp dụng nên KHÔNG đè mật khẩu bạn tự đổi trong app (chỉ áp dụng lại khi env thực sự đổi). Sửa lại hướng dẫn "Quên mật khẩu?" ở màn đăng nhập cho đúng bản Docker (bỏ hướng dẫn stop-boss.bat/start-boss.vbs kiểu Windows local).
+
 ## [1.0.10] - 2026-07-09
 ### Sửa lỗi
 - **Ô nhập chat ở màn hẹp/PC: placeholder xuống dòng + hiện nút ▲▼ trắng**: placeholder dài bị wrap 2 dòng làm nội dung textarea cao hơn 1 dòng → trình duyệt hiện thanh cuộn dọc (nút mũi tên trắng). Nay ẩn thanh cuộn của ô nhập (vẫn cuộn được bằng lăn chuột) + placeholder giữ 1 dòng (nowrap, cắt gọn khi hẹp) + min-width:0 để co giãn đúng.
