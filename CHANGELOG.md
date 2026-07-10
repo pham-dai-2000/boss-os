@@ -4,6 +4,10 @@ Lịch sử phiên bản Boss OS. Bản mới nhất ở trên cùng. Xem ngay t
 
 Định dạng: mỗi phiên bản là một khối `## [x.y.z] - ngày`, bên dưới nhóm thay đổi theo `### Thêm mới / Sửa lỗi / Cải thiện / Bảo mật`.
 
+## [1.0.10] - 2026-07-09
+### Sửa lỗi
+- **Ô nhập chat ở màn hẹp/PC: placeholder xuống dòng + hiện nút ▲▼ trắng**: placeholder dài bị wrap 2 dòng làm nội dung textarea cao hơn 1 dòng → trình duyệt hiện thanh cuộn dọc (nút mũi tên trắng). Nay ẩn thanh cuộn của ô nhập (vẫn cuộn được bằng lăn chuột) + placeholder giữ 1 dòng (nowrap, cắt gọn khi hẹp) + min-width:0 để co giãn đúng.
+
 ## [1.0.9] - 2026-07-09
 ### Sửa lỗi
 - **Thông báo "chưa cài Claude Code CLI / chưa kết nối model" lặp vô tận như loop**: trước đây khi mở app mà chưa có model nào, server gửi lỗi rồi ĐÓNG socket ngay lúc connect; client tự reconnect sau 3 giây → cứ 3s lại một dòng lỗi. Nay bỏ chặn-đóng-socket lúc connect, chỉ báo 1 lần KHI người dùng gửi tin (nếu engine rơi về CLI mà CLI chưa cài), và không cần CLI nếu đang dùng OpenRouter/OpenAI/ChatGPT. Client cũng chống lặp bong bóng lỗi giống hệt nhau liên tiếp.
