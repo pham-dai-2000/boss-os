@@ -4,6 +4,10 @@ Lịch sử phiên bản Boss OS. Bản mới nhất ở trên cùng. Xem ngay t
 
 Định dạng: mỗi phiên bản là một khối `## [x.y.z] - ngày`, bên dưới nhóm thay đổi theo `### Thêm mới / Sửa lỗi / Cải thiện / Bảo mật`.
 
+## [1.0.9] - 2026-07-09
+### Sửa lỗi
+- **Thông báo "chưa cài Claude Code CLI / chưa kết nối model" lặp vô tận như loop**: trước đây khi mở app mà chưa có model nào, server gửi lỗi rồi ĐÓNG socket ngay lúc connect; client tự reconnect sau 3 giây → cứ 3s lại một dòng lỗi. Nay bỏ chặn-đóng-socket lúc connect, chỉ báo 1 lần KHI người dùng gửi tin (nếu engine rơi về CLI mà CLI chưa cài), và không cần CLI nếu đang dùng OpenRouter/OpenAI/ChatGPT. Client cũng chống lặp bong bóng lỗi giống hệt nhau liên tiếp.
+
 ## [1.0.8] - 2026-07-08
 ### Sửa lỗi
 - **Nhãn graph vẫn vỡ font sau khi fix NFC ở server**: bổ sung chuẩn hoá NFC ngay tại client (lúc `graph3d.load()` nhận data + lúc vẽ concept label) → nhãn tiếng Việt hiển thị đúng dù server/trình duyệt còn trả NFD (thêm `cache:no-store` cho `/graph` để không dính cache cũ). Đồng thời vá `_node_payload` (nguồn node realtime qua WebSocket) — trước đó chưa chuẩn hoá nên node thêm realtime vẫn NFD (vỡ font + mất cạnh nối).

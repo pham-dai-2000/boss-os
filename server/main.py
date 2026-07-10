@@ -3702,14 +3702,9 @@ async def websocket_endpoint(ws: WebSocket):
     except Exception:
         pass
 
-    if not cli.is_available():
-        await ws.send_text(json.dumps({
-            "type": "error",
-            "content": "Claude Code CLI chưa được cài. Chạy: npm install -g @anthropic-ai/claude-code"
-        }))
-        await ws.close()
-        return
-
+    # KHÔNG chặn/đóng socket lúc connect nếu CLI chưa cài: engine chọn theo từng tin nhắn
+    # (có thể dùng OpenRouter/OpenAI/ChatGPT, không cần CLI). Nếu rơi về CLI mà chưa cài thì
+    # báo 1 lần TRONG vòng lặp tin nhắn (xem dưới), tránh close -> client reconnect 3s -> spam lỗi.
     or_messages = None   # lịch sử chat cho engine API (seed lại từ DB khi resume)
     store = get_store()
     conv_sid = None      # id phiên hội thoại (KHÁC cli.session_id của Claude)
@@ -3739,6 +3734,15 @@ async def websocket_endpoint(ws: WebSocket):
             engine_label = ("codex" if prov == "openai-oauth"
                             else prov if ((kind == "api" and api_key) or kind == "oauth")
                             else "cli")
+
+            # Chưa kết nối model AI nào (engine rơi về CLI) mà CLI chưa cài → báo 1 lần rồi bỏ qua lượt.
+            # KHÔNG đóng socket → client không reconnect → không spam thông báo như loop.
+            if engine_label == "cli" and not cli.is_available():
+                await ws.send_text(json.dumps({
+                    "type": "error",
+                    "content": "Chưa kết nối model AI nào. Vào mục Models để đăng nhập Claude Code, hoặc chọn OpenRouter / OpenAI / ChatGPT. (Muốn dùng Claude Code CLI thì cài: npm install -g @anthropic-ai/claude-code)"
+                }))
+                continue
 
             # ── Phiên hội thoại: resume-or-create (session_id ở đây là CONV id) ──
             incoming_sid = payload.get("session_id")
