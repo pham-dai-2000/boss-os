@@ -4,6 +4,10 @@ Lịch sử phiên bản Boss OS. Bản mới nhất ở trên cùng. Xem ngay t
 
 Định dạng: mỗi phiên bản là một khối `## [x.y.z] - ngày`, bên dưới nhóm thay đổi theo `### Thêm mới / Sửa lỗi / Cải thiện / Bảo mật`.
 
+## [1.0.12] - 2026-07-09
+### Sửa lỗi
+- **Đặt lại mật khẩu qua env không ăn (nối tiếp 1.0.11)**: bản 1.0.11 có bước "lần đầu chỉ ghi nhận giá trị env, chưa áp dụng" → nếu thêm/đổi BOSS_ADMIN_PASSWORD SAU khi đã nâng cấp thì bị ghi nhận mà không áp dụng (mật khẩu cũ vẫn vào được, mới không). Nay bỏ bước đó + đổi tên file marker (bỏ qua marker cũ bị kẹt): đặt/đổi BOSS_ADMIN_PASSWORD rồi Redeploy là mật khẩu về đúng giá trị đó. Vẫn giữ: env không đổi thì không đè mật khẩu bạn tự đổi trong app.
+
 ## [1.0.11] - 2026-07-09
 ### Cải thiện
 - **Đặt lại mật khẩu khi quên KHÔNG cần terminal**: chỉ cần đổi biến `BOSS_ADMIN_PASSWORD` trong Hostinger Docker Manager rồi Redeploy → app tự đặt lại mật khẩu về giá trị mới. App ghi nhớ giá trị env đã áp dụng nên KHÔNG đè mật khẩu bạn tự đổi trong app (chỉ áp dụng lại khi env thực sự đổi). Sửa lại hướng dẫn "Quên mật khẩu?" ở màn đăng nhập cho đúng bản Docker (bỏ hướng dẫn stop-boss.bat/start-boss.vbs kiểu Windows local).

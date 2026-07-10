@@ -250,7 +250,7 @@ def clear_setup_token():
         pass
 
 
-_ADMIN_ENV_SIG_PATH = STATE_DIR / ".admin_env_sig"
+_ADMIN_ENV_SIG_PATH = STATE_DIR / ".admin_env_sig2"   # đổi tên → bỏ qua marker 1.0.11 bị kẹt
 
 
 def provision_admin_from_env():
@@ -271,17 +271,11 @@ def provision_admin_from_env():
     except Exception:
         last = ""
 
-    if auth_enabled():
-        # Đã có admin. Lần đầu chạy bản này (chưa có marker) → chỉ GHI NHẬN sig hiện tại,
-        # KHÔNG reset (tránh nâng cấp bản mới mà vô tình đè mật khẩu đang dùng).
-        if last == "":
-            try: _ADMIN_ENV_SIG_PATH.write_text(sig, encoding="utf-8")
-            except Exception: pass
-            return False
-        # Env không đổi → giữ nguyên (không đè mật khẩu đổi trong app).
-        if sig == last:
-            return False
-        # Env ĐỔI → đây là hành động đặt lại có chủ đích.
+    # Đã có admin VÀ giá trị env y hệt lần áp dụng trước → không đụng (giữ mật khẩu đã đổi trong app).
+    if auth_enabled() and sig == last:
+        return False
+    # Còn lại (chưa có admin, HOẶC env khác lần trước, KỂ CẢ lần đầu chưa có marker) → áp dụng.
+    # Nghĩa là: đặt BOSS_ADMIN_PASSWORD rồi Redeploy là mật khẩu về đúng giá trị đó (tạo mới hoặc reset).
 
     h, salt = hash_password(pw)
     cfg = read_settings()
