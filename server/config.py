@@ -9,7 +9,7 @@ import hashlib
 import secrets
 from pathlib import Path
 
-# Mọi state Boss tự ghi (settings, auth sessions, loop config) nằm ở BOSS_STATE_DIR.
+# Mọi state Boss OS tự ghi (settings, auth sessions, loop config) nằm ở BOSS_STATE_DIR.
 # Mặc định = server/ (không đổi trên máy cũ). Docker/VPS đặt = /data/state (volume ghi được,
 # vì code tree /app là read-only trong container).
 STATE_DIR = Path(os.getenv("BOSS_STATE_DIR", str(Path(__file__).parent)))
@@ -81,8 +81,8 @@ _DEFAULT = {
         # Frontend cũng tự ép lite-mode khi màn hình hẹp dù cờ này bật.
         "graph_enabled": True,
     },
-    # MCP do Boss quản lý (registry connection ở mcp_servers.json). strict=True → CHỈ dùng
-    # kết nối của Boss (--strict-mcp-config), bỏ qua config MCP sẵn có của máy.
+    # MCP do Boss OS quản lý (registry connection ở mcp_servers.json). strict=True → CHỈ dùng
+    # kết nối của Boss OS (--strict-mcp-config), bỏ qua config MCP sẵn có của máy.
     # hub=True (mặc định): mọi engine đấu qua MCP HUB (1 entry "boss" - đa tài khoản, quyền,
     # audit tại hub). Đặt false để về chế độ cũ (per-server) nếu gặp sự cố.
     "mcp": {"strict": False, "hub": True},
@@ -121,7 +121,7 @@ def auth_enabled(cfg=None):
 
 
 def require_login():
-    """Có BẮT BUỘC đăng nhập để dùng Boss không (kể cả khi CHƯA đặt mật khẩu → ép setup).
+    """Có BẮT BUỘC đăng nhập để dùng Boss OS không (kể cả khi CHƯA đặt mật khẩu → ép setup).
     - BOSS_REQUIRE_LOGIN=1/0 ép bật/tắt tường minh.
     - Mặc định: BẬT khi server nghe public (BOSS_HOST=0.0.0.0, vd Docker/Hostinger/VPS) -
       vì Claude chạy full quyền, không được để hở ai cũng vào được."""

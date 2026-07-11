@@ -4,6 +4,9 @@ Lịch sử phiên bản Boss OS. Bản mới nhất ở trên cùng. Xem ngay t
 
 Định dạng: mỗi phiên bản là một khối `## [x.y.z] - ngày`, bên dưới nhóm thay đổi theo `### Thêm mới / Sửa lỗi / Cải thiện / Bảo mật`.
 
+## [1.0.13] - 2026-07-09
+### Cải thiện
+- **Đồng bộ thương hiệu "Boss OS" 100% ở mọi chữ hiển thị**: đổi tất cả chữ "Boss" đứng riêng (README, trang landing, docs, mô tả connector, thông báo trong app, trợ lý tự xưng, system prompt) thành "Boss OS". Giữ nguyên định danh code (biến/class như BossGraph3D, header X-Boss-Mode) và đường dẫn thư mục vault (Boss/, Boss\agents) vì đổi sẽ hỏng code/đường dẫn. Xác nhận 0 chữ "javis" còn sót trong toàn bộ source.
 ## [1.0.12] - 2026-07-09
 ### Sửa lỗi
 - **Đặt lại mật khẩu qua env không ăn (nối tiếp 1.0.11)**: bản 1.0.11 có bước "lần đầu chỉ ghi nhận giá trị env, chưa áp dụng" → nếu thêm/đổi BOSS_ADMIN_PASSWORD SAU khi đã nâng cấp thì bị ghi nhận mà không áp dụng (mật khẩu cũ vẫn vào được, mới không). Nay bỏ bước đó + đổi tên file marker (bỏ qua marker cũ bị kẹt): đặt/đổi BOSS_ADMIN_PASSWORD rồi Redeploy là mật khẩu về đúng giá trị đó. Vẫn giữ: env không đổi thì không đè mật khẩu bạn tự đổi trong app.

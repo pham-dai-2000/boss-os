@@ -1064,7 +1064,7 @@
     const mig = document.getElementById("ovMigrate");
     if (mig) mig.onclick = async () => {
       const brain = (window.currentBrainPath ? currentBrainPath() : "brain");
-      if (!confirm("Chuẩn hóa cấu trúc brain đang chọn?\n(Di chuyển Boss OS/agents→agents, Boss OS/workflows→workflows, Memory→memory. Có git backup.)")) return;
+      if (!confirm("Chuẩn hóa cấu trúc brain đang chọn?\n(Di chuyển Boss/agents→agents, Boss/workflows→workflows, Memory→memory. Có git backup.)")) return;
       mig.disabled = true; mig.textContent = "Đang chuẩn hóa...";
       const fd = new FormData(); fd.append("brain", brain);
       let r = {};
