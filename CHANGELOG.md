@@ -4,6 +4,15 @@ Lịch sử phiên bản Boss OS. Bản mới nhất ở trên cùng. Xem ngay t
 
 Định dạng: mỗi phiên bản là một khối `## [x.y.z] - ngày`, bên dưới nhóm thay đổi theo `### Thêm mới / Sửa lỗi / Cải thiện / Bảo mật`.
 
+## [1.0.14] - 2026-07-16
+### Cải thiện
+- **Không còn đốt token khi rảnh**: TẮT mặc định tính năng "Tự học" tự động (trước ship sẵn `auto` → âm thầm gọi Claude chưng cất sau mỗi hội thoại, kể cả khi bạn đã ngừng chat). Nay mặc định tắt; muốn thì bật thủ công ở trang **Tự học**. LƯU Ý: bản đã cài giữ nguyên cấu hình cũ trên volume → nếu đang bật auto, vào trang Tự học TẮT TAY.
+- **Số liệu kinh doanh chỉ tính khi bấm ⟳**: mở/để tab Dashboard không còn tự gọi Claude để dựng card số liệu (trước cứ mở là tốn token). Muốn số mới thì bấm nút cập nhật trên panel.
+- **Chat nhanh hơn (Opus → Sonnet)**: model chat mặc định đổi sang Sonnet (nhanh hơn rõ rệt, vẫn thông minh). Máy cài mới tự dùng Sonnet; bản đang chạy nếu vẫn thấy Opus thì vào **Models** đổi sang Sonnet.
+- **Second Brain đọc khi cần**: không nhồi toàn bộ bộ nhớ dài hạn vào mỗi câu nữa; chỉ đọc khi câu hỏi thật sự cần ngữ cảnh đã lưu → prompt nhẹ, trả lời nhanh, đỡ tốn token.
+### Thêm mới
+- **Cửa hàng**: mua các gói tính năng cao cấp ngay trong app (mua đứt theo phiên bản, thanh toán VietQR), tải và cài thẳng vào brain.
+
 ## [1.0.13] - 2026-07-09
 ### Cải thiện
 - **Đồng bộ thương hiệu "Boss OS" 100% ở mọi chữ hiển thị**: đổi tất cả chữ "Boss" đứng riêng (README, trang landing, docs, mô tả connector, thông báo trong app, trợ lý tự xưng, system prompt) thành "Boss OS". Giữ nguyên định danh code (biến/class như BossGraph3D, header X-Boss-Mode) và đường dẫn thư mục vault (Boss/, Boss\agents) vì đổi sẽ hỏng code/đường dẫn. Xác nhận 0 chữ "javis" còn sót trong toàn bộ source.
