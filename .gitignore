@@ -77,3 +77,12 @@ server/stop-last.log
 
 # Branding state (logo upload) - không commit
 server/branding/
+
+# Module Xưởng (admin-only) — KHÔNG đưa vào Core public
+server/seller_plugin.py
+dashboard/seller-ui.js
+
+# State cục bộ của instance (không đẩy lên repo)
+server/.instance_id
+server/premium_licenses.json
+server/premium_installed.json

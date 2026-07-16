@@ -9,11 +9,12 @@
 <meta property="og:title" content="Boss OS - Trợ lý AI tự host, chạy bằng gói AI bạn đang có">
 <meta property="og:description" content="Trợ lý AI + Second Brain tự host: nhớ bạn, báo số liệu thật từ kho kết nối (POS, quảng cáo, Gmail, lịch, Slack, Lark...), làm việc qua Telegram và giọng nói. Chạy bằng gói Claude/ChatGPT sẵn có, không cần API key.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://statics.pancake.vn/web-media-263/60/16/ba/ca/94174802bcc2b133a14259b5cb9093d18da42c2a175d8bf1ae1aaa1c-w:1028-h:613-l:76335-t:image/jpeg.jpg">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+<meta property="og:image" content="https://statics.pancake.vn/web-media-263/4e/88/f9/8c/251a768a680b24606a5e7d65a09eabd59a600ed723b54ee0a058351e-w:1506-h:1326-l:2285232-t:image/png.png">
+<link rel="icon" href="https://statics.pancake.vn/web-media-263/17/54/4c/43/23d872447ca502aef9dcf068d2e92d4ae87ad1329f095b96aef53253-w:910-h:910-l:77577-t:image/jpeg.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
 :root{
   /* Đồng bộ vibe app bossos.phamquangdai.com: nền tối ấm, amber + tím, chữ kem */
@@ -86,7 +87,8 @@ h1 em{font-style:normal;background:linear-gradient(90deg,var(--vio),var(--amber)
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:30px 26px;transition:transform .25s,box-shadow .25s,border-color .25s}
 .card:hover{transform:translateY(-6px);box-shadow:0 0 40px rgba(155,123,216,.25);border-color:rgba(155,123,216,.55)}
-.card .ico{font-size:32px;display:block;margin-bottom:14px}
+.ico{background:linear-gradient(135deg,#c89bff,var(--amber));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.card .ico{font-size:32px;display:block;margin-bottom:14px;width:max-content}
 .card h3{font-size:19px;font-weight:800;margin-bottom:8px}
 .card p{color:var(--mut);font-size:14.8px}
 
@@ -106,7 +108,7 @@ th.new{color:var(--vio);text-shadow:0 0 18px rgba(155,123,216,.8)}
 .feature{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 22px;overflow:hidden;transition:transform .25s,box-shadow .25s,border-color .25s}
 .feature:hover{transform:translateY(-5px);border-color:rgba(155,123,216,.55);box-shadow:0 0 40px rgba(155,123,216,.22)}
 .feature.big{grid-column:span 2;grid-row:span 2;display:flex;flex-direction:column;justify-content:flex-end;min-height:340px}
-.feature .ico{font-size:28px;display:block;margin-bottom:10px}
+.feature .ico{font-size:28px;display:block;margin-bottom:10px;width:max-content}
 .feature.big .ico{font-size:40px}
 .feature h3{font-size:17px;font-weight:800;margin-bottom:6px}
 .feature.big h3{font-size:22px}
@@ -154,12 +156,14 @@ th.new{color:var(--vio);text-shadow:0 0 18px rgba(155,123,216,.8)}
 .in .bubble:nth-child(5){transition-delay:2.5s}
 
 /* ===== brain flow ===== */
-.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.node{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px 18px;font-size:14px;font-weight:600;text-align:center;flex:1;min-width:120px}
+.flow{display:flex;flex-direction:column;align-items:stretch;gap:8px}
+.node{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px 18px;font-size:14px;font-weight:600;text-align:center}
 .node small{display:block;color:var(--mut);font-weight:400;font-size:12px;margin-top:3px}
-.arrow{width:44px;height:2px;position:relative;flex-shrink:0;background:linear-gradient(90deg,var(--vio),var(--amber),var(--vio));background-size:200% 100%;animation:dash 2.2s linear infinite}
-.arrow::after{content:"";position:absolute;right:-1px;top:-4px;border:5px solid transparent;border-left-color:var(--amber)}
+.node .ni{color:var(--amber);margin-right:8px}
+.arrow{width:2px;height:24px;margin:0 auto;position:relative;flex-shrink:0;background:linear-gradient(180deg,var(--vio),var(--amber),var(--vio));background-size:100% 200%;animation:dashv 2.2s linear infinite}
+.arrow::after{content:"";position:absolute;left:-4px;bottom:-2px;border:5px solid transparent;border-top-color:var(--amber)}
 @keyframes dash{to{background-position:-200% 0}}
+@keyframes dashv{to{background-position:0 -200%}}
 
 /* ===== timeline ===== */
 .steps{list-style:none;position:relative;max-width:680px}
@@ -171,9 +175,9 @@ th.new{color:var(--vio);text-shadow:0 0 18px rgba(155,123,216,.8)}
 .stepnum{position:absolute;left:0;top:0;width:40px;height:40px;border-radius:50%;background:var(--card);border:1px solid var(--vio);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--vio);box-shadow:0 0 22px rgba(155,123,216,.35)}
 .steps h3{font-size:19px;font-weight:800;margin-bottom:6px}
 .steps p{color:var(--mut);font-size:15px;margin-bottom:12px}
-pre{background:#0b0d22;border:1px solid var(--line);border-radius:12px;padding:14px 52px 14px 16px;font-size:13px;overflow-x:auto;position:relative;font-family:ui-monospace,Consolas,monospace;color:var(--amber)}
-.copy-btn{position:absolute;top:9px;right:9px;background:rgba(155,123,216,.18);border:1px solid var(--line);color:var(--tx);border-radius:8px;padding:5px 11px;font-size:12px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif}
-.copy-btn:hover{background:rgba(155,123,216,.35)}
+pre{background:#14121e;border:1px solid var(--line);border-radius:12px;padding:14px 82px 14px 16px;font-size:13px;overflow-x:auto;position:relative;font-family:ui-monospace,Consolas,monospace;color:var(--amber)}
+.copy-btn{position:absolute;top:8px;right:8px;background:#2b2540;border:1px solid var(--line2,rgba(242,240,232,.2));color:var(--tx);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;box-shadow:-8px 0 10px 4px #14121e}
+.copy-btn:hover{background:#3a3255;border-color:var(--amber);color:var(--amber)}
 
 /* ===== security ===== */
 .seclist{list-style:none;max-width:760px;display:flex;flex-direction:column;gap:16px}
@@ -200,7 +204,7 @@ pre{background:#0b0d22;border:1px solid var(--line);border-radius:12px;padding:1
 .author-txt p{color:var(--mut);font-size:16px;margin-bottom:24px}
 blockquote{position:relative;padding:6px 0 6px 26px;border-left:3px solid var(--vio);font-style:italic;font-size:17.5px;color:var(--tx)}
 blockquote::before{content:"\201C";position:absolute;left:-14px;top:-30px;font-size:74px;color:var(--vio);opacity:.5;font-style:normal}
-blockquote footer{margin-top:8px;font-style:normal;font-size:14px;color:var(--mut)}
+blockquote footer{margin-top:8px;padding:0;font-style:normal;font-size:14px;color:var(--mut)}
 
 /* ===== faq ===== */
 .faq{max-width:760px;margin:0 auto}
@@ -257,8 +261,8 @@ footer a:hover{color:var(--tx)}
 
 <nav id="nav">
   <div class="nav-in">
-    <a class="logo" href="#top">🧠 Boss OS</a>
-    <button id="burger" aria-label="Menu">☰</button>
+    <a class="logo" href="#top"><i class="fa-solid fa-brain" style="color:var(--vio);margin-right:7px"></i>Boss OS</a>
+    <button id="burger" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
     <div class="links" id="navLinks">
       <a href="#features">Tính năng</a>
       <a href="#connect">Kết nối</a>
@@ -307,9 +311,9 @@ footer a:hover{color:var(--tx)}
     <h2 class="rv">AI của bạn đang bị nhốt trong khung chat</h2>
     <p class="lead rv">Bạn trả tiền cho AI mỗi tháng, nhưng nó vẫn là một người lạ tài giỏi.</p>
     <div class="grid3">
-      <div class="card rv" style="--d:.05s"><span class="ico">🧠</span><h3>Hỏi xong là quên</h3><p>ChatGPT không nhớ bạn là ai sau mỗi phiên. Mỗi ngày bạn phải giải thích lại từ đầu về công việc của mình.</p></div>
-      <div class="card rv" style="--d:.15s"><span class="ico">📊</span><h3>Không biết số của bạn</h3><p>Hỏi doanh thu hôm nay, nó chỉ đoán. AI không nối vào POS, quảng cáo, lịch của bạn thì mãi mãi là người ngoài.</p></div>
-      <div class="card rv" style="--d:.25s"><span class="ico">💸</span><h3>Muốn làm việc thật thì tốn thêm tiền</h3><p>Các nền tảng agent bắt bạn mua API key, trả phí tháng, trong khi gói Claude/ChatGPT bạn đang có lại bỏ phí.</p></div>
+      <div class="card rv" style="--d:.05s"><i class="fa-solid fa-brain ico"></i><h3>Hỏi xong là quên</h3><p>ChatGPT không nhớ bạn là ai sau mỗi phiên. Mỗi ngày bạn phải giải thích lại từ đầu về công việc của mình.</p></div>
+      <div class="card rv" style="--d:.15s"><i class="fa-solid fa-chart-column ico"></i><h3>Không biết số của bạn</h3><p>Hỏi doanh thu hôm nay, nó chỉ đoán. AI không nối vào POS, quảng cáo, lịch của bạn thì mãi mãi là người ngoài.</p></div>
+      <div class="card rv" style="--d:.25s"><i class="fa-solid fa-money-bill-wave ico"></i><h3>Muốn làm việc thật thì tốn thêm tiền</h3><p>Các nền tảng agent bắt bạn mua API key, trả phí tháng, trong khi gói Claude/ChatGPT bạn đang có lại bỏ phí.</p></div>
     </div>
   </div>
 </section>
@@ -321,9 +325,9 @@ footer a:hover{color:var(--tx)}
     <h2 class="rv">Boss OS: lớp điều hành AI trên máy của chính bạn</h2>
     <p class="lead rv">Boss OS không phải một chatbot. Nó là hệ điều hành cho trợ lý AI: lấy Claude Code CLI làm bộ não toàn quyền, bọc thêm trí nhớ dài hạn, số liệu thật và các kênh làm việc, chạy trên máy hoặc VPS của bạn.</p>
     <div class="grid3">
-      <div class="card rv" style="--d:.05s"><span class="ico">💰</span><h3>0đ tiền API</h3><p>Bộ não chạy bằng gói Claude/ChatGPT bạn đang trả. Đổi engine tự do: Claude Code, Codex, OpenRouter, OpenAI.</p></div>
-      <div class="card rv" style="--d:.15s"><span class="ico">🧠</span><h3>Nhớ bạn vĩnh viễn</h3><p>Second Brain tích luỹ: bộ nhớ sống + Wiki có liên kết. Càng dùng càng hiểu bạn, không tái phát hiện lại từ đầu.</p></div>
-      <div class="card rv" style="--d:.25s"><span class="ico">📈</span><h3>Số liệu thật, không bịa</h3><p>Kho Kết nối đấu vào POS, quảng cáo, email, lịch... Boss OS trả lời bằng số thật của bạn, so kỳ trước, kèm đề xuất.</p></div>
+      <div class="card rv" style="--d:.05s"><i class="fa-solid fa-piggy-bank ico"></i><h3>0đ tiền API</h3><p>Bộ não chạy bằng gói Claude/ChatGPT bạn đang trả. Đổi engine tự do: Claude Code, Codex, OpenRouter, OpenAI.</p></div>
+      <div class="card rv" style="--d:.15s"><i class="fa-solid fa-brain ico"></i><h3>Nhớ bạn vĩnh viễn</h3><p>Second Brain tích luỹ: bộ nhớ sống + Wiki có liên kết. Càng dùng càng hiểu bạn, không tái phát hiện lại từ đầu.</p></div>
+      <div class="card rv" style="--d:.25s"><i class="fa-solid fa-arrow-trend-up ico"></i><h3>Số liệu thật, không bịa</h3><p>Kho Kết nối đấu vào POS, quảng cáo, email, lịch... Boss OS trả lời bằng số thật của bạn, so kỳ trước, kèm đề xuất.</p></div>
     </div>
   </div>
 </section>
@@ -357,15 +361,15 @@ footer a:hover{color:var(--tx)}
     <h2 class="rv">Một bộ não, đủ đồ nghề</h2>
     <p class="lead rv">Mọi thứ dưới đây có sẵn ngay sau khi deploy, không cài thêm gì.</p>
     <div class="bento">
-      <div class="feature big rv"><img class="bento-img" src="https://statics.pancake.vn/web-media-263/60/16/ba/ca/94174802bcc2b133a14259b5cb9093d18da42c2a175d8bf1ae1aaa1c-w:1028-h:613-l:76335-t:image/jpeg.jpg" alt="Đồ thị tri thức 3D trong Boss OS" loading="lazy"><span class="bento-shade"></span><span class="ico">🌌</span><h3>Đồ thị tri thức 3D</h3><p>Bộ não hiện thành nebula 3D, node nối nhau bằng wikilink, phản ứng theo giọng nói.</p><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/03-do-thi-tri-thuc-3d.md" target="_blank" rel="noopener">Docs ↗</a></div>
-      <div class="feature rv" style="--d:.03s"><span class="ico">🔌</span><h3>Kho Kết nối</h3><p>Hơn 15 dịch vụ cài sẵn: POS, quảng cáo, email, lịch, chat. Bấm là nối, không gõ config.</p><a href="#connect">Xem kho ↗</a></div>
-      <div class="feature rv" style="--d:.05s"><span class="ico">🎙️</span><h3>Giọng nói rảnh tay</h3><p>Giữ phím Cách để nói, Boss OS trả lời bằng giọng tiếng Việt.</p><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/02-tro-chuyen-va-giong-noi.md" target="_blank" rel="noopener">Docs ↗</a></div>
-      <div class="feature rv" style="--d:.1s"><span class="ico">📱</span><h3>Telegram 2 chiều</h3><p>Giao việc từ điện thoại, gửi ảnh nó đọc, làm xong nó gửi file về.</p><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/11-telegram.md" target="_blank" rel="noopener">Docs ↗</a></div>
-      <div class="feature rv" style="--d:.15s"><span class="ico">🤖</span><h3>Agents &amp; Workflows</h3><p>Tạo trợ lý chuyên biệt + chuỗi tự động nhiều bước trong Studio.</p><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/07-agents-va-workflows.md" target="_blank" rel="noopener">Docs ↗</a></div>
-      <div class="feature rv" style="--d:.2s"><span class="ico">🧩</span><h3>Skills bật/tắt</h3><p>Kho kỹ năng gom nhóm, thêm bớt như cài app.</p><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/06-skills.md" target="_blank" rel="noopener">Docs ↗</a></div>
-      <div class="feature rv" style="--d:.25s"><span class="ico">♻️</span><h3>Tự cải thiện</h3><p>Tự thức theo lịch: tổng hợp bán hàng, soạn nháp content, vá Wiki.</p><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/08-tu-cai-thien.md" target="_blank" rel="noopener">Docs ↗</a></div>
-      <div class="feature rv" style="--d:.3s"><span class="ico">📊</span><h3>Panel số liệu</h3><p>Card doanh thu, đơn, xu hướng tự cập nhật sau mỗi báo cáo.</p><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/09-mcp-va-so-lieu.md" target="_blank" rel="noopener">Docs ↗</a></div>
-      <div class="feature rv" style="--d:.35s"><span class="ico">🔎</span><h3>Phiên hội thoại</h3><p>Lưu hết, tìm kiếm toàn văn, mở lại kể cả khi đổi máy.</p><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/04-phien-hoi-thoai.md" target="_blank" rel="noopener">Docs ↗</a></div>
+      <div class="feature big rv"><img class="bento-img" src="https://statics.pancake.vn/web-media-263/4e/88/f9/8c/251a768a680b24606a5e7d65a09eabd59a600ed723b54ee0a058351e-w:1506-h:1326-l:2285232-t:image/png.png" alt="Đồ thị tri thức 3D trong Boss OS" loading="lazy"><span class="bento-shade"></span><i class="fa-solid fa-circle-nodes ico"></i><h3>Đồ thị tri thức 3D</h3><p>Bộ não hiện thành nebula 3D, node nối nhau bằng wikilink, phản ứng theo giọng nói.</p><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/03-do-thi-tri-thuc-3d.md" target="_blank" rel="noopener">Docs ↗</a></div>
+      <div class="feature rv" style="--d:.03s"><i class="fa-solid fa-plug ico"></i><h3>Kho Kết nối</h3><p>Hơn 15 dịch vụ cài sẵn: POS, quảng cáo, email, lịch, chat. Bấm là nối, không gõ config.</p><a href="#connect">Xem kho ↗</a></div>
+      <div class="feature rv" style="--d:.05s"><i class="fa-solid fa-microphone-lines ico"></i><h3>Giọng nói rảnh tay</h3><p>Giữ phím Cách để nói, Boss OS trả lời bằng giọng tiếng Việt.</p><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/02-tro-chuyen-va-giong-noi.md" target="_blank" rel="noopener">Docs ↗</a></div>
+      <div class="feature rv" style="--d:.1s"><i class="fa-solid fa-paper-plane ico"></i><h3>Telegram 2 chiều</h3><p>Giao việc từ điện thoại, gửi ảnh nó đọc, làm xong nó gửi file về.</p><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/11-telegram.md" target="_blank" rel="noopener">Docs ↗</a></div>
+      <div class="feature rv" style="--d:.15s"><i class="fa-solid fa-robot ico"></i><h3>Agents &amp; Workflows</h3><p>Tạo trợ lý chuyên biệt + chuỗi tự động nhiều bước trong Studio.</p><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/07-agents-va-workflows.md" target="_blank" rel="noopener">Docs ↗</a></div>
+      <div class="feature rv" style="--d:.2s"><i class="fa-solid fa-puzzle-piece ico"></i><h3>Skills bật/tắt</h3><p>Kho kỹ năng gom nhóm, thêm bớt như cài app.</p><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/06-skills.md" target="_blank" rel="noopener">Docs ↗</a></div>
+      <div class="feature rv" style="--d:.25s"><i class="fa-solid fa-arrows-rotate ico"></i><h3>Tự cải thiện</h3><p>Tự thức theo lịch: tổng hợp bán hàng, soạn nháp content, vá Wiki.</p><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/08-tu-cai-thien.md" target="_blank" rel="noopener">Docs ↗</a></div>
+      <div class="feature rv" style="--d:.3s"><i class="fa-solid fa-chart-line ico"></i><h3>Panel số liệu</h3><p>Card doanh thu, đơn, xu hướng tự cập nhật sau mỗi báo cáo.</p><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/09-mcp-va-so-lieu.md" target="_blank" rel="noopener">Docs ↗</a></div>
+      <div class="feature rv" style="--d:.35s"><i class="fa-solid fa-magnifying-glass ico"></i><h3>Phiên hội thoại</h3><p>Lưu hết, tìm kiếm toàn văn, mở lại kể cả khi đổi máy.</p><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/04-phien-hoi-thoai.md" target="_blank" rel="noopener">Docs ↗</a></div>
     </div>
   </div>
 </section>
@@ -396,9 +400,9 @@ footer a:hover{color:var(--tx)}
       <span class="perm-tag f">Toàn quyền</span>
     </div>
     <div class="grid3" style="margin-top:44px;text-align:left">
-      <div class="card rv" style="--d:.05s"><span class="ico">🔑</span><h3>Bấm là kết nối</h3><p>Dán key, quét QR (Zalo) hoặc đăng nhập OAuth (Google, Slack, Meta). Boss OS validate ngay và tự lấy tên cửa hàng/tài khoản.</p></div>
-      <div class="card rv" style="--d:.15s"><span class="ico">🛡️</span><h3>Phân quyền cứng 3 mức</h3><p>Chỉ đọc, Ghi nháp hay Toàn quyền, chặn THẬT tại hub theo từng lời gọi. Loop chạy nền không bao giờ tự tiêu tiền hay gửi tin.</p></div>
-      <div class="card rv" style="--d:.25s"><span class="ico">🔀</span><h3>Mọi bộ não dùng chung</h3><p>Claude Code, ChatGPT, OpenRouter, OpenAI hay Anthropic API đều đấu qua một hub. Đổi engine thoải mái, kết nối giữ nguyên.</p></div>
+      <div class="card rv" style="--d:.05s"><i class="fa-solid fa-key ico"></i><h3>Bấm là kết nối</h3><p>Dán key, quét QR (Zalo) hoặc đăng nhập OAuth (Google, Slack, Meta). Boss OS validate ngay và tự lấy tên cửa hàng/tài khoản.</p></div>
+      <div class="card rv" style="--d:.15s"><i class="fa-solid fa-shield-halved ico"></i><h3>Phân quyền cứng 3 mức</h3><p>Chỉ đọc, Ghi nháp hay Toàn quyền, chặn THẬT tại hub theo từng lời gọi. Loop chạy nền không bao giờ tự tiêu tiền hay gửi tin.</p></div>
+      <div class="card rv" style="--d:.25s"><i class="fa-solid fa-shuffle ico"></i><h3>Mọi bộ não dùng chung</h3><p>Claude Code, ChatGPT, OpenRouter, OpenAI hay Anthropic API đều đấu qua một hub. Đổi engine thoải mái, kết nối giữ nguyên.</p></div>
     </div>
     <p style="margin-top:34px"><a class="btn btn-o" href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/09-mcp-va-so-lieu.md" target="_blank" rel="noopener">Docs Kho Kết nối ↗</a></p>
   </div>
@@ -413,9 +417,9 @@ footer a:hover{color:var(--tx)}
         <h2 class="rv">Trợ lý trong túi áo</h2>
         <p class="lead rv" style="margin-bottom:0">Ra khỏi nhà không có nghĩa là ngừng điều hành. Boss OS nằm ngay trong Telegram của bạn.</p>
         <ul class="checks">
-          <li class="rv" style="--d:.05s"><span class="ck">✓</span>Biết bạn đang chat qua kênh nào, trả lời đúng ngữ cảnh kênh đó.</li>
-          <li class="rv" style="--d:.15s"><span class="ck">✓</span>Gửi ảnh, gửi file cho nó là nó tải về đọc ngay.</li>
-          <li class="rv" style="--d:.25s"><span class="ck">✓</span>Tạo xong báo cáo, tài liệu là tự gửi file ngược về Telegram cho bạn.</li>
+          <li class="rv" style="--d:.05s"><span class="ck"><i class="fa-solid fa-check"></i></span>Biết bạn đang chat qua kênh nào, trả lời đúng ngữ cảnh kênh đó.</li>
+          <li class="rv" style="--d:.15s"><span class="ck"><i class="fa-solid fa-check"></i></span>Gửi ảnh, gửi file cho nó là nó tải về đọc ngay.</li>
+          <li class="rv" style="--d:.25s"><span class="ck"><i class="fa-solid fa-check"></i></span>Tạo xong báo cáo, tài liệu là tự gửi file ngược về Telegram cho bạn.</li>
         </ul>
       </div>
       <div class="rv" data-replay="1" id="phoneWrap">
@@ -424,9 +428,9 @@ footer a:hover{color:var(--tx)}
           <div class="bubbles">
             <div class="bubble you">Tổng hợp bán hàng hôm qua rồi soạn báo cáo giúp anh</div>
             <div class="bubble boss">Dạ, hôm qua 34 đơn, 21.6 triệu. Em đang soạn báo cáo...</div>
-            <div class="bubble boss file"><span class="fico">📎</span><span><b>bao-cao-ban-hang.md</b><span>12 KB · Tài liệu</span></span></div>
+            <div class="bubble boss file"><span class="fico"><i class="fa-solid fa-paperclip"></i></span><span><b>bao-cao-ban-hang.md</b><span>12 KB · Tài liệu</span></span></div>
             <div class="bubble you">Ngon. Gửi cả file caption tuần này nhé</div>
-            <div class="bubble boss file"><span class="fico">📎</span><span><b>caption-tuan-27.md</b><span>Của anh đây ạ.</span></span></div>
+            <div class="bubble boss file"><span class="fico"><i class="fa-solid fa-paperclip"></i></span><span><b>caption-tuan-27.md</b><span>Của anh đây ạ.</span></span></div>
           </div>
         </div>
       </div>
@@ -442,21 +446,21 @@ footer a:hover{color:var(--tx)}
         <p class="kicker rv">Bộ não thứ hai</p>
         <h2 class="rv">Tri thức tích luỹ, không tái phát hiện</h2>
         <ul class="checks">
-          <li class="rv" style="--d:.05s"><span class="ck">✓</span>Thả file vào là Boss OS chưng cất thành Wiki có liên kết.</li>
-          <li class="rv" style="--d:.15s"><span class="ck">✓</span>Bộ nhớ sống: nhớ vai trò, sở thích, quyết định của bạn.</li>
-          <li class="rv" style="--d:.25s"><span class="ck">✓</span>Backup 2 chiều lên GitHub riêng tư: mất máy vẫn còn não, nhiều máy tự khớp nhau.</li>
+          <li class="rv" style="--d:.05s"><span class="ck"><i class="fa-solid fa-check"></i></span>Thả file vào là Boss OS chưng cất thành Wiki có liên kết.</li>
+          <li class="rv" style="--d:.15s"><span class="ck"><i class="fa-solid fa-check"></i></span>Bộ nhớ sống: nhớ vai trò, sở thích, quyết định của bạn.</li>
+          <li class="rv" style="--d:.25s"><span class="ck"><i class="fa-solid fa-check"></i></span>Backup 2 chiều lên GitHub riêng tư: mất máy vẫn còn não, nhiều máy tự khớp nhau.</li>
         </ul>
         <p style="margin-top:22px;font-size:14px"><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/13-second-brain-bo-nho-wiki.md" target="_blank" rel="noopener">Docs Second Brain ↗</a> · <a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/18-sao-luu-github.md" target="_blank" rel="noopener">Docs Backup GitHub ↗</a></p>
       </div>
       <div class="rv">
         <div class="flow">
-          <div class="node">📥 Ghi chú thô<small>bài viết, ảnh, file</small></div>
+          <div class="node"><i class="fa-solid fa-inbox ni"></i>Ghi chú thô<small>bài viết, ảnh, file</small></div>
           <div class="arrow"></div>
-          <div class="node">⚗️ INGEST<small>Boss OS chưng cất</small></div>
+          <div class="node"><i class="fa-solid fa-flask ni"></i>INGEST<small>Boss OS chưng cất</small></div>
           <div class="arrow"></div>
-          <div class="node">📚 Wiki liên kết<small>[[wikilink]]</small></div>
+          <div class="node"><i class="fa-solid fa-book ni"></i>Wiki liên kết<small>[[wikilink]]</small></div>
           <div class="arrow"></div>
-          <div class="node">🌌 Đồ thị 3D<small>bộ não nhìn thấy được</small></div>
+          <div class="node"><i class="fa-solid fa-circle-nodes ni"></i>Đồ thị 3D<small>bộ não nhìn thấy được</small></div>
         </div>
       </div>
     </div>
@@ -499,9 +503,9 @@ footer a:hover{color:var(--tx)}
     <h2 class="rv center">Ai dùng Boss OS?</h2>
     <p class="lead rv center">Bạn đấu nguồn dữ liệu nào, Boss OS phục vụ đúng công việc đó.</p>
     <div class="grid3">
-      <div class="card rv" style="--d:.05s"><span class="ico">🛍️</span><h3>Chủ shop online</h3><p>Sáng mở mắt có sẵn: doanh thu hôm qua, hàng bán chậm, caption đẩy hàng đã soạn nháp. Hỏi gì về shop cũng ra số thật.</p></div>
-      <div class="card rv" style="--d:.15s"><span class="ico">✍️</span><h3>Người làm nội dung</h3><p>Máy nghiền tri thức: thả tài liệu vào thành Wiki, agent theo workflow nghiên cứu rồi viết, kho skill viết bài sẵn dùng.</p></div>
-      <div class="card rv" style="--d:.25s"><span class="ico">⏰</span><h3>Người bận rộn</h3><p>Lịch tự động, nhắc việc, hỏi nhanh qua Telegram, nói chuyện rảnh tay khi lái xe về nhà.</p></div>
+      <div class="card rv" style="--d:.05s"><i class="fa-solid fa-bag-shopping ico"></i><h3>Chủ shop online</h3><p>Sáng mở mắt có sẵn: doanh thu hôm qua, hàng bán chậm, caption đẩy hàng đã soạn nháp. Hỏi gì về shop cũng ra số thật.</p></div>
+      <div class="card rv" style="--d:.15s"><i class="fa-solid fa-pen-nib ico"></i><h3>Người làm nội dung</h3><p>Máy nghiền tri thức: thả tài liệu vào thành Wiki, agent theo workflow nghiên cứu rồi viết, kho skill viết bài sẵn dùng.</p></div>
+      <div class="card rv" style="--d:.25s"><i class="fa-solid fa-clock ico"></i><h3>Người bận rộn</h3><p>Lịch tự động, nhắc việc, hỏi nhanh qua Telegram, nói chuyện rảnh tay khi lái xe về nhà.</p></div>
     </div>
   </div>
 </section>
@@ -513,10 +517,10 @@ footer a:hover{color:var(--tx)}
     <h2 class="rv">Dữ liệu nằm trên máy CỦA BẠN</h2>
     <p class="lead rv">Boss OS là phần mềm bạn sở hữu, không phải dịch vụ bạn đi thuê.</p>
     <ul class="seclist">
-      <li class="rv" style="--d:.05s"><span class="ck">✓</span>Tự host: local, VPS, Docker - không nộp dữ liệu cho SaaS nào.</li>
-      <li class="rv" style="--d:.15s"><span class="ck">✓</span>Tự bắt buộc đăng nhập khi chạy public, chống chiếm tài khoản, rate-limit.</li>
-      <li class="rv" style="--d:.25s"><span class="ck">✓</span>HTTPS qua Hostinger hoặc tên miền riêng, logo riêng - app mang tên bạn.</li>
-      <li class="rv" style="--d:.35s"><span class="ck">✓</span>Brain là file markdown mở: ngừng dùng Boss OS vẫn giữ nguyên kho tri thức.</li>
+      <li class="rv" style="--d:.05s"><span class="ck"><i class="fa-solid fa-check"></i></span>Tự host: local, VPS, Docker - không nộp dữ liệu cho SaaS nào.</li>
+      <li class="rv" style="--d:.15s"><span class="ck"><i class="fa-solid fa-check"></i></span>Tự bắt buộc đăng nhập khi chạy public, chống chiếm tài khoản, rate-limit.</li>
+      <li class="rv" style="--d:.25s"><span class="ck"><i class="fa-solid fa-check"></i></span>HTTPS qua Hostinger hoặc tên miền riêng, logo riêng - app mang tên bạn.</li>
+      <li class="rv" style="--d:.35s"><span class="ck"><i class="fa-solid fa-check"></i></span>Brain là file markdown mở: ngừng dùng Boss OS vẫn giữ nguyên kho tri thức.</li>
     </ul>
     <p style="margin-top:22px;font-size:14px"><a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/14-bao-mat-tai-khoan.md" target="_blank" rel="noopener">Docs bảo mật ↗</a></p>
   </div>
@@ -543,7 +547,7 @@ footer a:hover{color:var(--tx)}
     <h2 class="rv center" style="margin-bottom:52px">Xây bởi người dùng nó mỗi ngày</h2>
     <div class="author-grid">
       <div class="author-side rv">
-        <div class="avatar"><div class="ph">PĐ</div></div>
+        <div class="avatar"><div class="ph">PĐ</div><img src="https://statics.pancake.vn/web-media-263/b8/7f/b2/45/eb2ba878222803126495413737a43eb714f74e4b6d3cfda6d85d6b2d-w:2665-h:2868-l:1732913-t:image/jpeg.jpg" alt="Phạm Quảng Đại" loading="lazy"></div>
         <p class="name">Phạm Quảng Đại</p>
         <p class="role">Người sáng lập Boss OS</p>
         <p class="alinks"><a href="https://phamquangdai.com" target="_blank" rel="noopener">phamquangdai.com ↗</a> · <a href="https://github.com/pham-dai-2000" target="_blank" rel="noopener">GitHub ↗</a></p>
@@ -565,13 +569,13 @@ footer a:hover{color:var(--tx)}
     <h2 class="rv center">Câu hỏi thường gặp</h2>
     <p class="lead rv center">Còn thắc mắc khác? Mở issue trên <a href="https://github.com/pham-dai-2000/boss-os" target="_blank" rel="noopener">GitHub ↗</a>.</p>
     <div class="faq rv">
-      <div class="qa"><button class="faq-q">Có cần API key không?<span class="ar">▾</span></button><div class="faq-a"><p>Không. Boss OS dùng gói subscription Claude/ChatGPT bạn đang có. Chỉ đăng nhập 1 lần.</p></div></div>
-      <div class="qa"><button class="faq-q">Boss OS kết nối được với những gì?<span class="ar">▾</span></button><div class="faq-a"><p>Hơn 15 dịch vụ cài sẵn trong Kho Kết nối: Pancake POS, Meta/Google/TikTok Ads, Gmail, Google Calendar, Sheets, Slack, Lark, Zalo, Botcake, Webcake, Systeme.io... Bấm kết nối rồi dán key hoặc đăng nhập là xong, mỗi kết nối phân quyền riêng. Dịch vụ chưa có thì tự thêm bằng MCP.</p></div></div>
-      <div class="qa"><button class="faq-q">Không biết code có dùng được không?<span class="ar">▾</span></button><div class="faq-a"><p>Được. Deploy bằng cách dán 1 URL vào Hostinger, mọi thao tác còn lại làm trên giao diện.</p></div></div>
-      <div class="qa"><button class="faq-q">Chạy trên Windows được không?<span class="ar">▾</span></button><div class="faq-a"><p>Được: Windows, macOS, Linux, Docker, VPS đều được.</p></div></div>
-      <div class="qa"><button class="faq-q">Update có mất dữ liệu không?<span class="ar">▾</span></button><div class="faq-a"><p>Không. Dữ liệu nằm trong volume/thư mục riêng, update chỉ thay code.</p></div></div>
-      <div class="qa"><button class="faq-q">Có tiếng Việt không?<span class="ar">▾</span></button><div class="faq-a"><p>Toàn bộ giao diện, tài liệu và giọng đọc đều tiếng Việt.</p></div></div>
-      <div class="qa"><button class="faq-q">Dữ liệu của tôi đi đâu?<span class="ar">▾</span></button><div class="faq-a"><p>Nằm trên máy/VPS của bạn dạng file markdown. Chỉ nội dung hội thoại được gửi tới model AI bạn chọn, như mọi lần bạn chat với Claude/ChatGPT.</p></div></div>
+      <div class="qa"><button class="faq-q">Có cần API key không?<span class="ar"><i class="fa-solid fa-chevron-down"></i></span></button><div class="faq-a"><p>Không. Boss OS dùng gói subscription Claude/ChatGPT bạn đang có. Chỉ đăng nhập 1 lần.</p></div></div>
+      <div class="qa"><button class="faq-q">Boss OS kết nối được với những gì?<span class="ar"><i class="fa-solid fa-chevron-down"></i></span></button><div class="faq-a"><p>Hơn 15 dịch vụ cài sẵn trong Kho Kết nối: Pancake POS, Meta/Google/TikTok Ads, Gmail, Google Calendar, Sheets, Slack, Lark, Zalo, Botcake, Webcake, Systeme.io... Bấm kết nối rồi dán key hoặc đăng nhập là xong, mỗi kết nối phân quyền riêng. Dịch vụ chưa có thì tự thêm bằng MCP.</p></div></div>
+      <div class="qa"><button class="faq-q">Không biết code có dùng được không?<span class="ar"><i class="fa-solid fa-chevron-down"></i></span></button><div class="faq-a"><p>Được. Deploy bằng cách dán 1 URL vào Hostinger, mọi thao tác còn lại làm trên giao diện.</p></div></div>
+      <div class="qa"><button class="faq-q">Chạy trên Windows được không?<span class="ar"><i class="fa-solid fa-chevron-down"></i></span></button><div class="faq-a"><p>Được: Windows, macOS, Linux, Docker, VPS đều được.</p></div></div>
+      <div class="qa"><button class="faq-q">Update có mất dữ liệu không?<span class="ar"><i class="fa-solid fa-chevron-down"></i></span></button><div class="faq-a"><p>Không. Dữ liệu nằm trong volume/thư mục riêng, update chỉ thay code.</p></div></div>
+      <div class="qa"><button class="faq-q">Có tiếng Việt không?<span class="ar"><i class="fa-solid fa-chevron-down"></i></span></button><div class="faq-a"><p>Toàn bộ giao diện, tài liệu và giọng đọc đều tiếng Việt.</p></div></div>
+      <div class="qa"><button class="faq-q">Dữ liệu của tôi đi đâu?<span class="ar"><i class="fa-solid fa-chevron-down"></i></span></button><div class="faq-a"><p>Nằm trên máy/VPS của bạn dạng file markdown. Chỉ nội dung hội thoại được gửi tới model AI bạn chọn, như mọi lần bạn chat với Claude/ChatGPT.</p></div></div>
     </div>
   </div>
 </section>
@@ -589,7 +593,7 @@ footer a:hover{color:var(--tx)}
 
 <footer>
   <div class="wrap">
-    Made with ☕ by <a href="https://phamquangdai.com" target="_blank" rel="noopener">Phạm Quảng Đại</a>
+    Made with <i class="fa-solid fa-mug-hot"></i> by <a href="https://phamquangdai.com" target="_blank" rel="noopener">Phạm Quảng Đại</a>
     · <a href="https://github.com/pham-dai-2000/boss-os" target="_blank" rel="noopener">GitHub</a>
     · <a href="https://github.com/pham-dai-2000/boss-os/blob/main/docs/README.md" target="_blank" rel="noopener">Tài liệu ↗</a>
   </div>

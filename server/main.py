@@ -152,7 +152,17 @@ def build_system_prompt(brain: str = "brain") -> str:
     except Exception:
         mem = ""
     if mem.strip():
-        base += "\n\n# === BỘ NHỚ DÀI HẠN (nạp sẵn) ===\n" + mem
+        # KHÔNG nhồi cả bộ nhớ vào mỗi lượt (chậm + tốn token). Chỉ trỏ đường dẫn;
+        # model TỰ đọc khi câu hỏi cần ngữ cảnh đã lưu, câu thường thì trả lời thẳng.
+        base += (
+            "\n\n# === SECOND BRAIN (chỉ đọc KHI CẦN, để trả lời nhanh) ===\n"
+            f"Bộ nhớ dài hạn + wiki của user ở thư mục: {idx.parent}\n"
+            f"Mục lục: {idx}\n"
+            "QUY TẮC TỐC ĐỘ: câu chào hỏi / kiến thức chung / việc không liên quan hồ sơ user "
+            "thì TRẢ LỜI THẲNG, TUYỆT ĐỐI KHÔNG đọc brain. CHỈ khi câu hỏi cần ngữ cảnh đã lưu "
+            "(user/công ty là ai, sở thích, quyết định cũ, số liệu, kiến thức nội bộ) thì mới "
+            f"Read `{idx}` rồi lần theo [[link]] lấy chi tiết."
+        )
     # Đường dẫn lớp Agentic của vault đang làm việc (để Boss OS tạo agent/workflow/loop qua chat)
     root = _brain_root(brain)
     system_sync.ensure_synced(root)   # brain nào cũng có đủ năng lực hệ thống (1 lần/process, rẻ)
@@ -478,7 +488,7 @@ def _effective_main(cfg):
         return {"provider": "openrouter", "model": m.get("openrouter_model") or ""}
     if eng == "anthropic-api":
         return {"provider": "anthropic-api", "model": m.get("claude_model") or ""}
-    return {"provider": "anthropic-cli", "model": m.get("claude_model") or "opus"}
+    return {"provider": "anthropic-cli", "model": m.get("claude_model") or "sonnet"}
 
 def _providers_view(cfg):
     m = cfg.get("model", {})
@@ -721,7 +731,7 @@ def oauth_openai_poll():
 def oauth_openai_disconnect():
     cfg = cfgmod.read_settings()
     if _effective_main(cfg).get("provider") == "openai-oauth":   # đang là MAIN → về Claude Code CLI
-        _set_main_model(cfg, "anthropic-cli", cfg["model"].get("claude_model") or "opus")
+        _set_main_model(cfg, "anthropic-cli", cfg["model"].get("claude_model") or "sonnet")
         cfgmod.write_settings(cfg)
     openai_oauth.disconnect()
     return {"ok": True}
@@ -1063,7 +1073,7 @@ async def settings_set(section: str = Form(...), data: str = Form("{}")):
             if d and d.get("key_field"):
                 m[d["key_field"]] = ""
                 if _effective_main(cfg).get("provider") == patch["clear_key"]:
-                    _set_main_model(cfg, "anthropic-cli", m.get("claude_model") or "opus")
+                    _set_main_model(cfg, "anthropic-cli", m.get("claude_model") or "sonnet")
         if "auxiliary" in patch:   # model phụ cho việc nền
             m.setdefault("auxiliary", {})["model"] = (patch["auxiliary"] or {}).get("model", "")
         if "reasoning" in patch:   # độ sâu suy nghĩ: off|low|medium|high
@@ -1372,6 +1382,16 @@ async def metrics(fresh: int = Query(0, description="1 = bỏ cache, gọi mới
         cached["cached"] = True
         return cached
 
+    # KHÔNG tự gọi Claude khi chỉ mở/để tab (không đốt token nền). Chỉ tính mới khi
+    # người dùng CHỦ ĐỘNG bấm nút refresh (fresh=1). Mở tab bình thường → trả cache
+    # nếu có, không thì rỗng (frontend hiện lớp Agentic, không tốn token).
+    if not fresh:
+        if _METRICS_CACHE["data"]:
+            cached = dict(_METRICS_CACHE["data"])
+            cached["cached"] = True
+            return cached
+        return {"cards": [], "idle": True}
+
     cli = ClaudeCLI(system_prompt=SYSTEM_PROMPT, cwd=CLAUDE_CWD, tag="metrics")
     cli.model = _aux_model() or None   # việc nền: dùng model phụ nếu có cấu hình
     _apply_mcp(cli)   # metrics cần MCP (POS/ads) - dùng server Boss OS quản lý nếu có
@@ -1568,6 +1588,19 @@ def _brain_root(brain: str) -> str:
     if not brain or brain == "brain":
         return str(_default_brain_dir())
     return brain if os.path.isdir(brain) else str(_default_brain_dir())
+
+# Cửa hàng Premium (client "người đi mua") — cài pack vào <brain>/.claude/skills/
+import store_client
+store_client.set_brain_resolver(_brain_root)
+app.include_router(store_client.router)
+
+# Module "Xưởng" (admin-only) — CHỈ có trên máy Sếp (từ repo private). Khách không có
+# file seller_plugin.py → import lỗi → bỏ qua, Core vẫn chạy bình thường.
+try:
+    import seller_plugin
+    seller_plugin.register(app, _brain_root)
+except Exception:
+    pass
 
 def _brain_sub(root, new_name: str, old_rel: str) -> Path:
     """Subfolder trong brain theo cấu trúc CHUẨN MỚI (phẳng <root>/<new_name>).
@@ -4271,7 +4304,7 @@ async def _tg_command(cmd, arg, chat=None):
         return {"reply": "🔄 Đã reset hội thoại (chỉ phiên của bạn)."}
     if cmd in ("cli", "claude"):
         s = cfgmod.read_settings()
-        _set_main_model(s, "anthropic-cli", (s["model"].get("main") or {}).get("model") or s["model"].get("claude_model") or "opus")
+        _set_main_model(s, "anthropic-cli", (s["model"].get("main") or {}).get("model") or s["model"].get("claude_model") or "sonnet")
         cfgmod.write_settings(s)
         return {"reply": "✅ Provider: Anthropic (Claude Code) - đầy đủ MCP, hỏi POS/Ads/vault được."}
     if cmd in ("or", "openrouter"):

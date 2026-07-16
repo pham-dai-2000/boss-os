@@ -160,8 +160,8 @@ class LearnFeature:
         self.deps = deps
         self.config_path = Path(deps.state_dir) / "learn_config.json"
         self.DEFAULT = {
-            "enabled": True,                    # mặc định BẬT tự học ngay
-            "mode": "auto",                     # dry-run | suggest | auto - mặc định tự ghi (không cần git)
+            "enabled": False,                   # mặc định TẮT tự học → không đốt token nền của khách
+            "mode": "suggest",                  # dry-run | suggest | auto - khi bật thì gợi ý, không tự ghi ngầm
             "capabilities": {"memory": True, "wiki": True, "skill": True, "task": True},  # bật hết
             "debounce": {"k": 3, "idle_min": 10, "dense_idle_min": 3},
             "rate": {"min_interval_s": 90, "fork_day": 40, "token_day": 300000},

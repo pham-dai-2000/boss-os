@@ -883,7 +883,7 @@ async function loadMetrics(opts = {}) {
     metricCards.innerHTML = `<div class="metric-empty">Đang quét các nguồn dữ liệu...</div>`;
   }
   try {
-    const res = await fetch("/metrics");
+    const res = await fetch("/metrics" + (opts.fresh ? "?fresh=1" : ""));
     const data = await res.json();
     const cards = data.cards || [];
     if (cards.length === 0) {
@@ -948,7 +948,7 @@ function renderMetrics(cards, statusText) {
   const status = document.getElementById("metricStatus");
   if (status) status.textContent = statusText || "";
 }
-document.getElementById("refreshMetrics").addEventListener("click", loadMetrics);
+document.getElementById("refreshMetrics").addEventListener("click", () => loadMetrics({ fresh: true }));
 
 // Trích block metrics Boss OS nhúng trong response → cập nhật panel trái
 const METRICS_BLOCK_RE = /<!--\s*BOSS_METRICS:\s*([\s\S]*?)\s*-->/;

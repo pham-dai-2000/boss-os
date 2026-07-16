@@ -26,6 +26,8 @@
     logs:        _svg('<path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/>'),
     account:     _svg('<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6.5 8-6.5s8 2.5 8 6.5"/>'),
     files:       _svg('<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/>'),
+    store:       _svg('<path d="M4 8h16l-1 12H5L4 8z"/><path d="M9 8a3 3 0 0 1 6 0"/>'),
+    seller:      _svg('<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4l-6.6 6.6a1.5 1.5 0 0 0 2.1 2.1l6.6-6.6a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.1-.4-.4-2.1 2.9-2.6z"/>'),
     selfimprove: _svg('<path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/>'),
     learn:       _svg('<path d="M12 3v18"/><path d="M5 7h14"/><path d="M4 12h16"/><circle cx="12" cy="12" r="9"/>'),
     kanban:      _svg('<rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="10" rx="1"/><rect x="17" y="4" width="4" height="13" rx="1"/>'),
@@ -44,6 +46,7 @@
     { id: "models",      icon: ICON.models,      label: "Models AI" },
     { id: "channels",    icon: ICON.channels,    label: "Kênh Bot" },
     { id: "mcp",         icon: ICON.mcp,         label: "Kết nối" },
+    { id: "store",       icon: ICON.store,       label: "Cửa hàng" },
     { id: "account",     icon: ICON.account,     label: "Tài khoản" },
     // Cài đặt xuống cuối, kèm 3 mục con (thụt vào)
     { id: "settings",    icon: ICON.settings,    label: "Cài đặt" },
@@ -51,6 +54,9 @@
     { id: "learn",       icon: ICON.learn,       label: "Tự học",    sub: true },
     { id: "logs",        icon: ICON.logs,        label: "Cập nhật",  sub: true },
   ];
+  // "Xưởng" chỉ hiện khi có module admin (seller-ui.js) — máy Sếp mới có; khách thì không.
+  if (window.BossSeller) RAIL_ITEMS.splice(RAIL_ITEMS.findIndex(i => i.id === "account"), 0,
+    { id: "seller", icon: ICON.seller, label: "Xưởng" });
 
   const VIEW_META = {
     home:        { icon: "⬡", label: "Boss OS", sub: "" },
@@ -67,6 +73,8 @@
     models:      { icon: "◈", label: "Models", sub: "Main model & providers" },
     channels:    { icon: "✉", label: "Kênh kết nối", sub: "Telegram & hơn nữa" },
     mcp:         { icon: "🔌", label: "Kết nối", sub: "Nguồn dữ liệu & công cụ" },
+    store:       { icon: "🛍", label: "Cửa hàng", sub: "Tính năng cao cấp · mua đứt theo phiên bản" },
+    seller:      { icon: "🛠", label: "Xưởng", sub: "Đóng gói tính năng để bán · quản lý khách" },
     logs:        { icon: "🗒", label: "Nhật ký cập nhật", sub: "Phiên bản & tính năng mới" },
     account:     { icon: "⚙", label: "Tài khoản", sub: "Đăng nhập & workspace" },
   };
@@ -136,6 +144,14 @@
     if (id === "learn")    return renderLearn(el);
     if (id === "kanban")   return renderKanban(el);
     if (id === "logs")     return renderLogs(el);
+    if (id === "store") {
+      const fn = window.BossStore && window.BossStore.render;
+      return fn ? fn(el) : (el.innerHTML = placeholder(id, "store-ui.js chưa sẵn sàng."));
+    }
+    if (id === "seller") {
+      const fn = window.BossSeller && window.BossSeller.render;
+      return fn ? fn(el) : (el.innerHTML = placeholder(id, "Module Xưởng chưa sẵn sàng."));
+    }
     el.innerHTML = placeholder(id);
   }
 
